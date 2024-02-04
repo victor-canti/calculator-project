@@ -1,19 +1,24 @@
-const displayValue = document.querySelector('#display');
+const display = document.querySelector('#display');
 let firstNumber;
 let operator;
 let secondNumber;
 
 // store all nums clicked to concat them instead overwrite
-let numsClick = [];
-const numSelect = document.querySelectorAll('.number-grid');
+let displayValue = [];
+const numsBtn = document.querySelectorAll('.number-grid');
+const clearAllBtn = document.querySelector('#clear-all')
 
-numSelect.forEach(numClick => {
-    numClick.addEventListener('click', () => {
-        // each num id store their own value, and its added to numsclick
-        numsClick.push(numClick.id)
-        displayValue.value = numsClick.join('');
-
+numsBtn.forEach(numClick => {
+    displayValue.addEventListener('click', () => {
+        // each num id store their own value, and its added to displayValue
+        displayValue.push(numClick.id)
+        display.value = displayValue.join('');
     });
+})
+
+clearAllBtn.addEventListener('click', () => {
+    display.value = 0;
+    displayValue = [];
 })
 
 

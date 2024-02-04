@@ -3,6 +3,8 @@ let firstNumber = 0;
 let firstNumStored;
 let operator;
 let secondNumber;
+// continue number operation until click clear all button
+let currentValue = null;
 
 // store all nums clicked to concat them instead overwrite
 let displayValue = [];
@@ -17,6 +19,13 @@ numsBtn.forEach(numClick => {
             displayValue.push(numClick.id)
             display.value = displayValue.join('');
             firstNumber = displayValue.join('');
+        } 
+        // allow to do more than 1 operation with the same number and takes secondNumber as 
+        // second parameter of operate() function
+        else if (currentValue !== null) {
+            displayValue.push(numClick.id)
+            display.value = displayValue.join('');
+            secondNumber = displayValue.join('');
         } else {
             displayValue.push(numClick.id)
             display.value = displayValue.join('');
@@ -31,13 +40,23 @@ clearAllBtn.addEventListener('click', () => {
     displayValue = [];
     firstNumber = 0;
     secondNumber = 0;
+    currentValue = null;
 })
 
 basicsOperatorsBtn = document.querySelectorAll('.operator-grid')
 basicsOperatorsBtn.forEach(operatorPick => {
-    
+
     let operatorName = operatorPick.id;
     operatorPick.addEventListener('click', () => {
+
+        if (currentValue !== null) {
+        display.value = 0;
+        displayValue = [];
+        operatorName === 'sum' ? operator = 'sum' :
+        operatorName === 'subtract' ? operator = 'subtract' :
+        operatorName === 'multiply' ? operator = 'multiply' :
+        operator = 'divide';
+        } else {
         firstNumStored = firstNumber;
         display.value = 0;
         displayValue = [];
@@ -46,6 +65,7 @@ basicsOperatorsBtn.forEach(operatorPick => {
         operatorName === 'subtract' ? operator = 'subtract' :
         operatorName === 'multiply' ? operator = 'multiply' :
         operator = 'divide';
+        }
     })
 })
 
@@ -54,26 +74,12 @@ basicsOperatorsBtn.forEach(operatorPick => {
 equalsBtn = document.querySelector('#equals')
 
 equalsBtn.addEventListener('click', () => {
-    if(secondNumber !== undefined) {
+    if (currentValue !== null) {
+        operate(Number(currentValue), Number(secondNumber), operator)
+    } else if(secondNumber !== undefined) {
          operate(Number(firstNumStored), Number(secondNumber), operator);
     }
 })
-
-function sum(num1, num2) {
-    display.value = num1 + num2;
-}
-
-function subtract(num1, num2) {
-    display.value = num1 - num2
-}
-
-function multiply(num1, num2) {
-    display.value = num1 * num2
-}
-
-function divide(num1, num2) {
-    display.value = num1 / num2
-}
 
 function operate(num1, num2, operator) {
     if (operator === 'sum') {
@@ -85,4 +91,28 @@ function operate(num1, num2, operator) {
     } else if (operator === 'divide') {
         divide(num1, num2)
     }
+}
+
+function sum(num1, num2) {
+    display.value = num1 + num2;
+    currentValue = num1 + num2;
+    secondNumber = 0;
+}
+
+function subtract(num1, num2) {
+    display.value = num1 - num2
+    currentValue = num1 - num2;
+    secondNumber = 0;
+}
+
+function multiply(num1, num2) {
+    display.value = num1 * num2
+    currentValue = num1 * num2;
+    secondNumber = 0;
+}
+
+function divide(num1, num2) {
+    display.value = num1 / num2
+    currentValue = num1 / num2;
+    secondNumber = 0;
 }

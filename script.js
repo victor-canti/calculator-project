@@ -52,7 +52,20 @@ function cleanDisplayType(type) {
         secondNumber = undefined;
         currentValue = null;
     } else if (type == 'clear entry') {
-
+        if (firstNumber !== null) {
+            displayValue = [];
+            displayValue.length === 0 ? display.textContent = '0' :
+            display.textContent = displayValue.join('');
+            firstNumber = displayValue.join('');
+        } else if (secondNumber === 0) {
+            cleanDisplayType('clear all');
+        } else {
+            displayValue = [];
+            displayValue.length === 0 ? display.textContent = '0' :
+            display.textContent = displayValue.join('');
+            displayValue.length === 0 ? secondNumber = '0' :
+            secondNumber = displayValue.join('');
+        }
     } else {
         if (firstNumber !== null) {
             displayValue.pop()
@@ -87,10 +100,10 @@ basicsOperatorsBtn.forEach(operatorPick => {
                 operator = operatorPick.id;
                 secondNumber = undefined;
                 displayValue = [];
-            } else if (secondNumber !== undefined) {
+            } else if (secondNumber !== undefined && secondNumber !== '0') {
                 operate(Number(firstNumStored), Number(secondNumber), operator);
                 operator = operatorPick.id;
-                secondNumber = 0;
+                secondNumber = '0';
                 displayValue = [];
                 } else if (operator !== undefined) {
                 display.textContent = currentValue;

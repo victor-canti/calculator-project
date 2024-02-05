@@ -45,20 +45,27 @@ clearAllBtn.addEventListener('click', () => {
 
 basicsOperatorsBtn = document.querySelectorAll('.operator-grid')
 basicsOperatorsBtn.forEach(operatorPick => {
-
     let operatorName = operatorPick.id;
+
     operatorPick.addEventListener('click', () => {
 
         if (currentValue !== null) {
-        display.value = 0;
-        displayValue = [];
-        operatorName === 'sum' ? operator = 'sum' :
-        operatorName === 'subtract' ? operator = 'subtract' :
-        operatorName === 'multiply' ? operator = 'multiply' :
-        operator = 'divide';
+            if (secondNumber > 0) {
+                operate(Number(currentValue), Number(secondNumber), operator);
+                operator = operatorPick.id;
+                secondNumber = 0;
+                displayValue = [];
+            } else {
+            display.value = currentValue;
+            displayValue = [];
+            operatorName === 'sum' ? operator = 'sum' :
+            operatorName === 'subtract' ? operator = 'subtract' :
+            operatorName === 'multiply' ? operator = 'multiply' :
+            operator = 'divide';
+            }
         } else {
         firstNumStored = firstNumber;
-        display.value = 0;
+        display.value = firstNumber;
         displayValue = [];
         firstNumber = null;
         operatorName === 'sum' ? operator = 'sum' :

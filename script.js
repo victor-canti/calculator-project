@@ -13,13 +13,7 @@ const numsBtn = document.querySelectorAll('.number-grid');
 numsBtn.forEach(numClick => {
     numClick.addEventListener('click', () => {
 
-        if (display.textContent == 'Error') {
-            display.textContent = 0;
-            displayValue = [];
-            firstNumber = undefined;
-            secondNumber = 0;
-            currentValue = null;
-        }
+        if (display.textContent == 'Error') {cleanDisplayType('clear all')}
         
         if (firstNumber !== null) {
             // each num id store their own value, and its added to displayValue
@@ -42,15 +36,39 @@ numsBtn.forEach(numClick => {
     });
 })
 
-const clearAllBtn = document.querySelector('#clear-all')
+const clearAllBtn = document.querySelector('#clear-all');
+const clearEntryBtn = document.querySelector('#clear-entry');
+const backSpaceBtn = document.querySelector('#backspace');
 
-clearAllBtn.addEventListener('click', () => {
-    display.textContent = 0;
-    displayValue = [];
-    firstNumber = undefined;
-    secondNumber = 0;
-    currentValue = null;
-})
+clearAllBtn.addEventListener('click', () => {cleanDisplayType('clear all')});
+clearEntryBtn.addEventListener('click', () => {cleanDisplayType('clear entry')});
+backSpaceBtn.addEventListener('click', () => {cleanDisplayType('backspace')});
+
+function cleanDisplayType(type) {
+    if (type == 'clear all') {
+        display.textContent = 0;
+        displayValue = [];
+        firstNumber = undefined;
+        secondNumber = undefined;
+        currentValue = null;
+    } else if (type == 'clear entry') {
+
+    } else {
+        if (firstNumber !== null) {
+            displayValue.pop()
+            displayValue.length === 0 ? display.textContent = '0' :
+            display.textContent = displayValue.join('');
+            firstNumber = displayValue.join('');
+        } else if (secondNumber !== undefined) {
+            displayValue.pop()
+            displayValue.length === 0 ? display.textContent = '0' :
+            display.textContent = displayValue.join('');
+            displayValue.length === 0 ? secondNumber = '0' :
+            secondNumber = displayValue.join('');
+        }
+    }
+}
+
 
 basicsOperatorsBtn = document.querySelectorAll('.operator-grid')
 basicsOperatorsBtn.forEach(operatorPick => {
@@ -67,9 +85,9 @@ basicsOperatorsBtn.forEach(operatorPick => {
             if (secondNumber > 0 && currentValue !== null) {
                 operate(Number(currentValue), Number(secondNumber), operator);
                 operator = operatorPick.id;
-                secondNumber = 0;
+                secondNumber = undefined;
                 displayValue = [];
-            } else if (secondNumber > 0) {
+            } else if (secondNumber !== undefined) {
                 operate(Number(firstNumStored), Number(secondNumber), operator);
                 operator = operatorPick.id;
                 secondNumber = 0;
@@ -83,7 +101,7 @@ basicsOperatorsBtn.forEach(operatorPick => {
                 operator = 'divide';
                 }
 
-        } else if (firstNumber !== undefined) {
+        } else if (firstNumber !== undefined && firstNumber !== '') {
             firstNumStored = firstNumber;
             display.textContent = firstNumber;
             displayValue = [];

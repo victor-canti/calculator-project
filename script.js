@@ -223,18 +223,40 @@ function percentage() {
     }
 }
 
-const powerBtn = document.querySelector('#power')
-powerBtn.addEventListener ('click', power);
+const secondPowerBtn = document.querySelector('#power')
+secondPowerBtn.addEventListener ('click', toSecondPower);
 
-function power() {
+function toSecondPower() {
     if (firstNumberPress) {
         let result = Number(firstNumber) * Number(firstNumber);
+        if (result.toString().includes('.')) result = Number(result.toFixed(2));
         displayTotalValue = result.toString().split('');
         display.textContent =  displayTotalValue.join(''); 
         firstNumber = displayTotalValue.join('')
 
     } else if (secondNumberPress && secondNumber !== undefined) {
         let result = Number(secondNumber) * Number(secondNumber);
+        if (result.toString().includes('.')) result = Number(result.toFixed(2));
+        displayTotalValue = result.toString().split('');;
+        display.textContent =  displayTotalValue.join(''); 
+        secondNumber = displayTotalValue.join('')
+    }
+}
+
+const oneOverBtn = document.querySelector('#one-over-num');
+oneOverBtn.addEventListener('click', oneOverNum);
+
+function oneOverNum() {
+    if (firstNumberPress) {
+        let result = 1 / Number(firstNumber);
+        if (result.toString().includes('.')) result = Number(result.toFixed(2));
+        displayTotalValue = result.toString().split('');
+        display.textContent =  displayTotalValue.join(''); 
+        firstNumber = displayTotalValue.join('')
+
+    } else if (secondNumberPress && secondNumber !== undefined) {
+        let result = 1 / Number(secondNumber);
+        if (result.toString().includes('.')) result = Number(result.toFixed(2));
         displayTotalValue = result.toString().split('');;
         display.textContent =  displayTotalValue.join(''); 
         secondNumber = displayTotalValue.join('')

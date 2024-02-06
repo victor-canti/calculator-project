@@ -1,40 +1,63 @@
 const display = document.querySelector('#display');
 let firstNumber;
-let firstNumStored;
+let firstNumberPress = true;
 let operator;
 let secondNumber;
-// continue number operation until click clear all button
-let currentValue = null;
+let secondNumberPress = false;
+let currentValue;
 
 // store all nums clicked to concat them instead overwrite
-let displayValue = [];
+let displayTotalValue = [];
 const numsBtn = document.querySelectorAll('.number-grid');
+    numsBtn.forEach(numPick => numPick.addEventListener('click', () => {
+        num = numPick.id;
+        if (firstNumberPress) {
 
-numsBtn.forEach(numClick => {
-    numClick.addEventListener('click', () => {
+            displayTotalValue.push(num);
+            display.textContent =  displayTotalValue.join(''); 
+            firstNumber = displayTotalValue.join('')
+            operationGoing = false;
 
-        if (display.textContent == 'Error') {cleanDisplayType('clear all')}
-        
-        if (firstNumber !== null) {
-            // each num id store their own value, and its added to displayValue
-            displayValue.push(numClick.id)
-            display.textContent = displayValue.join('');
-            firstNumber = displayValue.join('');
-        } 
-        // allow to do more than 1 operation with the same number and takes secondNumber as 
-        // second parameter of operate() function
-        else if (currentValue !== null) {
-            displayValue.push(numClick.id)
-            display.textContent = displayValue.join('');
-            secondNumber = displayValue.join('');
-        } else {
-            displayValue.push(numClick.id)
-            display.textContent = displayValue.join('');
-            secondNumber = displayValue.join('');
+        } else if (secondNumberPress) {
+
+            displayTotalValue.push(num);
+            display.textContent = displayTotalValue.join('');
+            secondNumber = displayTotalValue.join('');
         }
-        
-    });
-})
+
+    }))
+
+let operationGoing;
+const OperatorsBtn = document.querySelectorAll('.operator-grid');
+OperatorsBtn.forEach(operationPick => operationPick.addEventListener('click', () => {
+    operation = operationPick.id
+    
+    if (secondNumber !== undefined) {
+        operate(Number(firstNumber), Number(secondNumber), operator)
+        operator = operation;
+        displayTotalValue = [];
+        secondNumberPress = true;
+        operationGoing = true;
+    } else if (operationGoing === false) {
+        firstNumberPress = false;
+        secondNumberPress = true;
+        displayTotalValue = [];
+        operator = operation;
+        operationGoing = true;
+    }
+}))
+
+const equalsBtn = document.querySelector('.equal-grid');
+equalsBtn.addEventListener('click', equality)
+
+function equality() {
+    if(secondNumberPress && secondNumber !== undefined && operationGoing) {
+        operate(Number(firstNumber), Number(secondNumber), operator);
+        secondNumberPress = false;
+        operationGoing = false;
+    }
+}
+
 
 const clearAllBtn = document.querySelector('#clear-all');
 const clearEntryBtn = document.querySelector('#clear-entry');
@@ -46,100 +69,53 @@ backSpaceBtn.addEventListener('click', () => {cleanDisplayType('backspace')});
 
 function cleanDisplayType(type) {
     if (type == 'clear all') {
-        display.textContent = 0;
-        displayValue = [];
+        display.textContent = '0';
+        displayTotalValue = [];
+        firstNumberPress = true;
         firstNumber = undefined;
+        secondNumberPress = false;
         secondNumber = undefined;
-        currentValue = null;
+        operator = undefined;
+        operationGoing = undefined;
     } else if (type == 'clear entry') {
-        if (firstNumber !== null) {
-            displayValue = [];
-            displayValue.length === 0 ? display.textContent = '0' :
-            display.textContent = displayValue.join('');
-            firstNumber = displayValue.join('');
-        } else if (secondNumber === 0) {
+        if (firstNumberPress) {
+
+            displayTotalValue = [];
+            display.textContent = '0';
+            firstNumber = '0';
+
+        } else if (secondNumber === undefined) {
             cleanDisplayType('clear all');
-        } else {
-            displayValue = [];
-            displayValue.length === 0 ? display.textContent = '0' :
-            display.textContent = displayValue.join('');
-            displayValue.length === 0 ? secondNumber = '0' :
-            secondNumber = displayValue.join('');
+        } else if (secondNumberPress && secondNumber !== undefined) {
+
+            displayTotalValue = [];
+            display.textContent = '0';
+            secondNumber = '0';
         }
+        
     } else {
-        if (firstNumber !== null) {
-            displayValue.pop()
-            displayValue.length === 0 ? display.textContent = '0' :
-            display.textContent = displayValue.join('');
-            firstNumber = displayValue.join('');
-        } else if (secondNumber !== undefined) {
-            displayValue.pop()
-            displayValue.length === 0 ? display.textContent = '0' :
-            display.textContent = displayValue.join('');
-            displayValue.length === 0 ? secondNumber = '0' :
-            secondNumber = displayValue.join('');
+        if (firstNumberPress) {
+
+            displayTotalValue.pop();
+            displayTotalValue.length === 0 ? display.textContent = '0' :
+            display.textContent = displayTotalValue.join('');
+            firstNumber = displayTotalValue.join('');
+
+        } else if (secondNumber === undefined) {
+            cleanDisplayType('clear all');
+        } else if (secondNumberPress && secondNumber !== undefined) {
+
+            displayTotalValue.pop();
+            displayTotalValue.length === 0 ? display.textContent = '0' :
+            display.textContent = displayTotalValue.join('');
+            secondNumber = displayTotalValue.join('');
         }
     }
 }
 
 
-basicsOperatorsBtn = document.querySelectorAll('.operator-grid')
-basicsOperatorsBtn.forEach(operatorPick => {
-    let operatorName = operatorPick.id;
-
-    operatorPick.addEventListener('click', () => {
-    
-        // if dividing a number by 0 display error message
-        if (operator == 'divide' && secondNumber == 0) {
-            divide(1, 0);
-            operator = undefined;
-        } else if (currentValue !== null || firstNumber === null) {
-
-            if (secondNumber > 0 && currentValue !== null) {
-                operate(Number(currentValue), Number(secondNumber), operator);
-                operator = operatorPick.id;
-                secondNumber = undefined;
-                displayValue = [];
-            } else if (secondNumber !== undefined && secondNumber !== '0') {
-                operate(Number(firstNumStored), Number(secondNumber), operator);
-                operator = operatorPick.id;
-                secondNumber = '0';
-                displayValue = [];
-                } else if (operator !== undefined) {
-                display.textContent = currentValue;
-                displayValue = [];
-                operatorName === 'sum' ? operator = 'sum' :
-                operatorName === 'subtract' ? operator = 'subtract' :
-                operatorName === 'multiply' ? operator = 'multiply' :
-                operator = 'divide';
-                }
-
-        } else if (firstNumber !== undefined && firstNumber !== '') {
-            firstNumStored = firstNumber;
-            display.textContent = firstNumber;
-            displayValue = [];
-            firstNumber = null;
-            operatorName === 'sum' ? operator = 'sum' :
-            operatorName === 'subtract' ? operator = 'subtract' :
-            operatorName === 'multiply' ? operator = 'multiply' :
-            operator = 'divide';
-        }   
-    })
-})
-
-
-
-equalsBtn = document.querySelector('#equals')
-
-equalsBtn.addEventListener('click', () => {
-    if (currentValue !== null) {
-        operate(Number(currentValue), Number(secondNumber), operator)
-    } else if(secondNumber !== undefined) {
-         operate(Number(firstNumStored), Number(secondNumber), operator);
-    }
-})
-
 function operate(num1, num2, operator) {
+
     if (operator === 'sum') {
         sum(num1, num2)
     } else if (operator === 'subtract') {
@@ -149,32 +125,47 @@ function operate(num1, num2, operator) {
     } else if (operator === 'divide') {
         divide(num1, num2)
     }
+    operationGoing = false;
 }
 
 function sum(num1, num2) {
-    display.textContent = num1 + num2;
-    currentValue = num1 + num2;
-    secondNumber = 0;
+    result = num1 + num2
+
+    display.textContent = result.toString();
+    firstNumber = result.toString();
+    secondNumber = undefined;
+    currentValue = result;
 }
 
 function subtract(num1, num2) {
-    display.textContent = num1 - num2
-    currentValue = num1 - num2;
-    secondNumber = 0;
+    result = num1 - num2
+
+    display.textContent = result.toString()
+    firstNumber = result.toString();
+    secondNumber = undefined;
+    currentValue = result;
 }
 
 function multiply(num1, num2) {
-    display.textContent = num1 * num2
-    currentValue = num1 * num2;
-    secondNumber = 0;
+    result = num1 * num2
+
+    display.textContent = result.toString();
+    firstNumber = result.toString();
+    secondNumber = undefined;
+    currentValue = result;
 }
 
 function divide(num1, num2) {
+    result = num1 / num2
+
     if (num2 == 0) {
         display.textContent = 'Error';
     } else {
-        display.textContent = num1 / num2
-        currentValue = num1 / num2;
-        secondNumber = 0;
+        display.textContent = result.toString();
+        firstNumber = result.toString();
+        secondNumber = undefined;
+        currentValue = result;
     }
 }
+
+dotBtn = document.querySelector('.dot-num');

@@ -50,6 +50,7 @@ body {
 #display {
     display: flex;
     align-items: center;
+    overflow: hidden;
     justify-content: right;
     width: 280px;
     height: 80px;
@@ -71,11 +72,13 @@ body {
 
 .top-grid, .number-grid, 
 .operator-grid, .equal-grid,
-#negative-num, #dot-num {
+#negative-num {
     width: 70px;
     height: 55px;
     border: 2px solid rgb(39, 35, 35);
     border-radius: 5px;
+    font-weight: 600;
+    font-size: 16px;
 }
 
 .operator-grid, .equal-grid, 
@@ -84,10 +87,28 @@ body {
 }
 
 .top-grid {
-    background-color: rgb(168, 161, 161);
+    background-color: rgb(145, 140, 140);
 }
 
-.number-grid, #negative-num,
-#dot-num {
+.number-grid, #negative-num {
     background-color: lightgray;
 }
+
+.equal-grid {
+    background-color: rgb(255, 115, 0);
+}
+
+.top-grid:hover {background-color: lightgray}
+.top-grid:active {background-color: rgb(145, 140, 140)}
+
+.number-grid:hover, 
+#negative-num:hover {background-color: rgb(145, 140, 140)}
+.number-grid:active, 
+#negative-num:active {background-color:lightgray}
+
+.operator-grid:focus, #divide:focus {background-color: rgb(0, 45, 141)}
+.operator-grid:hover, #divide:hover, #backspace:hover {background-color: rgb(0, 60, 189)}
+.operator-grid:active, #divide:active, #backspace:active {background-color: rgb(0, 45, 141)}
+
+.equal-grid:hover {background-color: rgb(219, 99, 0)}
+.equal-grid:active {background-color: rgb(182, 82, 0)}

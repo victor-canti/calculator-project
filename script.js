@@ -169,8 +169,17 @@ function divide(num1, num2) {
     }
 }
 
-// dotBtn = document.querySelector('.dot-num');
-// dotBtn.addEventListener('click', addDot)
-// function addDot() {
-    
-// }
+negativeNumBtn = document.querySelector('#negative-num');
+negativeNumBtn.addEventListener('click', negativeNum);
+
+function negativeNum() {
+    if (firstNumberPress) {
+        display.textContent =  `${Number(displayTotalValue.join('')) * -1}`; 
+        firstNumber = `${Number(displayTotalValue.join('')) * -1}`;
+
+    } else if (secondNumberPress && secondNumber !== undefined) {
+
+        display.textContent =  `${Number(displayTotalValue.join('')) * -1}`; 
+        secondNumber = `${Number(displayTotalValue.join('')) * -1}`;
+    }
+}

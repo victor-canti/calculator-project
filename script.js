@@ -11,15 +11,16 @@ let displayTotalValue = [];
 const numsBtn = document.querySelectorAll('.number-grid');
     numsBtn.forEach(numPick => numPick.addEventListener('click', () => {
         num = numPick.id;
-        if (firstNumberPress) {
 
+        if (firstNumberPress) {
+            if (num === '.' && displayTotalValue.includes(num)) AbortController() 
             displayTotalValue.push(num);
             display.textContent =  displayTotalValue.join(''); 
             firstNumber = displayTotalValue.join('')
             operationGoing = false;
 
         } else if (secondNumberPress) {
-
+            if (num === '.' && displayTotalValue.includes(num)) AbortController()
             displayTotalValue.push(num);
             display.textContent = displayTotalValue.join('');
             secondNumber = displayTotalValue.join('');
@@ -168,4 +169,8 @@ function divide(num1, num2) {
     }
 }
 
-dotBtn = document.querySelector('.dot-num');
+// dotBtn = document.querySelector('.dot-num');
+// dotBtn.addEventListener('click', addDot)
+// function addDot() {
+    
+// }

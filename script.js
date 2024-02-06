@@ -116,6 +116,9 @@ function cleanDisplayType(type) {
 
 
 function operate(num1, num2, operator) {
+    if (num1.toString().includes('.')) num1 = Number(num1.toFixed(1));
+    if (num2.toString().includes('.')) num2 = Number(num2.toFixed(1));
+
 
     if (operator === 'sum') {
         sum(num1, num2)
@@ -130,7 +133,7 @@ function operate(num1, num2, operator) {
 }
 
 function sum(num1, num2) {
-    result = num1 + num2
+    result = (num1 * 100 + num2 * 100) / 100
 
     display.textContent = result.toString();
     firstNumber = result.toString();
@@ -139,7 +142,7 @@ function sum(num1, num2) {
 }
 
 function subtract(num1, num2) {
-    result = num1 - num2
+    result = (num1 * 100 - num2 * 100) / 100
 
     display.textContent = result.toString()
     firstNumber = result.toString();
@@ -148,7 +151,7 @@ function subtract(num1, num2) {
 }
 
 function multiply(num1, num2) {
-    result = num1 * num2
+    result = ((num1 * 100) * (num2 * 100)) / 10000;
 
     display.textContent = result.toString();
     firstNumber = result.toString();
@@ -157,10 +160,17 @@ function multiply(num1, num2) {
 }
 
 function divide(num1, num2) {
-    result = num1 / num2
+    result = ((num1 * 100) / (num2 * 100))
 
     if (num2 == 0) {
         display.textContent = 'Error';
+        displayTotalValue = [];
+        firstNumberPress = true;
+        firstNumber = undefined;
+        secondNumberPress = false;
+        secondNumber = undefined;
+        operator = undefined;
+        operationGoing = undefined;
     } else {
         display.textContent = result.toString();
         firstNumber = result.toString();
@@ -174,12 +184,40 @@ negativeNumBtn.addEventListener('click', negativeNum);
 
 function negativeNum() {
     if (firstNumberPress) {
-        display.textContent =  `${Number(displayTotalValue.join('')) * -1}`; 
-        firstNumber = `${Number(displayTotalValue.join('')) * -1}`;
+        
+        if(display.textContent.includes('-')) {
+            display.textContent =  `${Number(displayTotalValue.join('')) * 1}`; 
+            firstNumber = `${Number(displayTotalValue.join('')) * 1}`;
+        } else {
+            display.textContent =  `${Number(displayTotalValue.join('')) * -1}`; 
+            firstNumber = `${Number(displayTotalValue.join('')) * -1}`;
+        }
 
     } else if (secondNumberPress && secondNumber !== undefined) {
 
-        display.textContent =  `${Number(displayTotalValue.join('')) * -1}`; 
-        secondNumber = `${Number(displayTotalValue.join('')) * -1}`;
+        if(display.textContent.includes('-')) {
+            display.textContent =  `${Number(displayTotalValue.join('')) * 1}`; 
+            secondNumber = `${Number(displayTotalValue.join('')) * 1}`;
+        } else {
+            display.textContent =  `${Number(displayTotalValue.join('')) * -1}`; 
+            secondNumber = `${Number(displayTotalValue.join('')) * -1}`;
+        }
+    }
+}
+
+percentageBtn = document.querySelector('#percentage');
+percentageBtn.addEventListener('click', percentage);
+
+function percentage() {
+    if (firstNumberPress) {
+        displayTotalValue = [];
+        display.textContent = '0'; 
+        firstNumber = '0';
+
+    } else if (secondNumberPress && secondNumber !== undefined) {
+        let result = Number(secondNumber) * Number(firstNumber) / 100;
+        if (result.toString().includes('.')) result = Number(result.toFixed(2));
+        display.textContent = `${result}`;
+        secondNumber = `${result}`;
     }
 }

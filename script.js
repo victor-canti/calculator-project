@@ -179,7 +179,7 @@ function divide(num1, num2) {
     }
 }
 
-negativeNumBtn = document.querySelector('#negative-num');
+const negativeNumBtn = document.querySelector('#negative-num');
 negativeNumBtn.addEventListener('click', negativeNum);
 
 function negativeNum() {
@@ -205,7 +205,7 @@ function negativeNum() {
     }
 }
 
-percentageBtn = document.querySelector('#percentage');
+const percentageBtn = document.querySelector('#percentage');
 percentageBtn.addEventListener('click', percentage);
 
 function percentage() {
@@ -217,7 +217,26 @@ function percentage() {
     } else if (secondNumberPress && secondNumber !== undefined) {
         let result = Number(secondNumber) * Number(firstNumber) / 100;
         if (result.toString().includes('.')) result = Number(result.toFixed(2));
-        display.textContent = `${result}`;
-        secondNumber = `${result}`;
+        displayTotalValue = result.toString().split('');;
+        display.textContent =  displayTotalValue.join(''); 
+        secondNumber = displayTotalValue.join('')
+    }
+}
+
+const powerBtn = document.querySelector('#power')
+powerBtn.addEventListener ('click', power);
+
+function power() {
+    if (firstNumberPress) {
+        let result = Number(firstNumber) * Number(firstNumber);
+        displayTotalValue = result.toString().split('');
+        display.textContent =  displayTotalValue.join(''); 
+        firstNumber = displayTotalValue.join('')
+
+    } else if (secondNumberPress && secondNumber !== undefined) {
+        let result = Number(secondNumber) * Number(secondNumber);
+        displayTotalValue = result.toString().split('');;
+        display.textContent =  displayTotalValue.join(''); 
+        secondNumber = displayTotalValue.join('')
     }
 }

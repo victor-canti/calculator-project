@@ -262,3 +262,23 @@ function oneOverNum() {
         secondNumber = displayTotalValue.join('')
     }
 }
+
+const sqrtBtn = document.querySelector('#sqrt')
+sqrtBtn.addEventListener('click', sqrt);
+
+function sqrt() {
+    if (firstNumberPress) {
+        let result = Math.sqrt(Number(firstNumber));
+        if (result.toString().includes('.')) result = Number(result.toFixed(2));
+        displayTotalValue = result.toString().split('');
+        display.textContent =  displayTotalValue.join(''); 
+        firstNumber = displayTotalValue.join('')
+
+    } else if (secondNumberPress && secondNumber !== undefined) {
+        let result = Math.sqrt(Number(secondNumber));
+        if (result.toString().includes('.')) result = Number(result.toFixed(2));
+        displayTotalValue = result.toString().split('');;
+        display.textContent =  displayTotalValue.join(''); 
+        secondNumber = displayTotalValue.join('')
+    }
+}

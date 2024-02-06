@@ -209,7 +209,7 @@ const percentageBtn = document.querySelector('#percentage');
 percentageBtn.addEventListener('click', percentage);
 
 function percentage() {
-    if (firstNumberPress) {
+    if (firstNumberPress && firstNumber !== undefined) {
         displayTotalValue = [];
         display.textContent = '0'; 
         firstNumber = '0';
@@ -227,7 +227,7 @@ const secondPowerBtn = document.querySelector('#power')
 secondPowerBtn.addEventListener ('click', toSecondPower);
 
 function toSecondPower() {
-    if (firstNumberPress) {
+    if (firstNumberPress && firstNumber !== undefined) {
         let result = Number(firstNumber) * Number(firstNumber);
         if (result.toString().includes('.')) result = Number(result.toFixed(2));
         displayTotalValue = result.toString().split('');
@@ -247,7 +247,7 @@ const oneOverBtn = document.querySelector('#one-over-num');
 oneOverBtn.addEventListener('click', oneOverNum);
 
 function oneOverNum() {
-    if (firstNumberPress) {
+    if (firstNumberPress && firstNumber !== undefined) {
         let result = 1 / Number(firstNumber);
         if (result.toString().includes('.')) result = Number(result.toFixed(2));
         displayTotalValue = result.toString().split('');
@@ -267,7 +267,7 @@ const sqrtBtn = document.querySelector('#sqrt')
 sqrtBtn.addEventListener('click', sqrt);
 
 function sqrt() {
-    if (firstNumberPress) {
+    if (firstNumberPress && firstNumber !== undefined) {
         let result = Math.sqrt(Number(firstNumber));
         if (result.toString().includes('.')) result = Number(result.toFixed(2));
         displayTotalValue = result.toString().split('');

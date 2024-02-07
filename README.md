@@ -4,4 +4,4 @@ It's a simple calculator that allow users to perform basics arithmetic operation
 
 ## Link of the project
 
-[Calculator](victor-canti.github.io/calculator-project/){:target="_blank"}
+<a href="victor-canti.github.io/calculator-project/" target="_blank">Calculator</a>
